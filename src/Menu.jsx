@@ -6,7 +6,7 @@ export const Menu = () => {
     <nav>
       <ul>
         {routes.map((route) => (
-          <li key={route.id}>
+          <li key={route.path}>
             <NavLink
               style={({ isActive }) => ({ color: isActive ? "red" : "blue" })}
               to={route.path}
@@ -16,16 +16,6 @@ export const Menu = () => {
             </NavLink>
           </li>
         ))}
-
-        {/* <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/blog">Blog</Link>
-        </li>
-        <li>
-          <Link to="/profile">Profile</Link>
-        </li> */}
 
         {/* <li>
           <NavLink

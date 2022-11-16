@@ -1,4 +1,5 @@
-import { HashRouter, Route, Routes, useRoutes } from "react-router-dom";
+import { HashRouter, useRoutes } from "react-router-dom";
+import { AuthProvider } from "./auth";
 import { Menu } from "./Menu";
 import { routes } from "./routes/routes";
 
@@ -13,12 +14,10 @@ export const App = () => {
   return (
     <>
       <HashRouter>
-        <Menu />
-        <Router />
-
-        <Routes>
-          <Route path="*" element={<p>Not Found</p>} />
-        </Routes>
+        <AuthProvider>
+          <Menu />
+          <Router />
+        </AuthProvider>
       </HashRouter>
     </>
   );

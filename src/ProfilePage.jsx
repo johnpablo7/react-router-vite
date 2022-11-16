@@ -1,3 +1,12 @@
+import { useAuth } from "./auth";
+
 export const ProfilePage = () => {
-  return <div>ProfilePage</div>;
+  const auth = useAuth();
+
+  return (
+    <>
+      <h1>Perfil</h1>
+      <p>Welcome, {auth.user.username}</p>
+    </>
+  );
 };
