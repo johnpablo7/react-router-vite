@@ -1,14 +1,29 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { createContext, useContext, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { userlist } from "./userlist";
 
-const AuthContext = React.createContext();
+// const adminList = ["juan", "freddy", "oscar"];
+
+const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
+  // Arreglo de userlist.js
+  const userRole = (username) => {
+    const user = userlist.find((item) => username === item.name);
+    if (user) return user.role;
+    return {
+      admin: false,
+      editor: false,
+      client: true,
+    };
+  };
+
   const login = ({ username }) => {
-    setUser({ username });
+    const autorization = userRole(username);
+    setUser({ username, autorization });
     navigate("/profile");
   };
 
@@ -23,8 +38,19 @@ const AuthProvider = ({ children }) => {
 };
 
 const useAuth = () => {
-  const auth = React.useContext(AuthContext);
+  const auth = useContext(AuthContext);
   return auth;
 };
 
-export { AuthProvider, useAuth };
+// Autenticacion de proteccion de Rutas: si no estamos legados nos redirige al login
+const AuthRoute = (props) => {
+  const auth = useAuth();
+
+  if (!auth.user) {
+    return <Navigate to="/login" />;
+  }
+
+  return props.children;
+};
+
+export { AuthProvider, useAuth, AuthRoute };

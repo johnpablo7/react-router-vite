@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "./auth";
 
 export const LoginPage = () => {
@@ -7,9 +8,14 @@ export const LoginPage = () => {
 
   const login = (e) => {
     e.preventDefault();
-    // console.log(username);
     auth.login({ username });
+    // console.log(username);
   };
+
+  // Este componente nos ayuda a que si estamos logeados y pongamos login en la url no nos la muestre si no que nos mande a profile
+  if (auth.user) {
+    return <Navigate to="/profile" />;
+  }
 
   return (
     <>
