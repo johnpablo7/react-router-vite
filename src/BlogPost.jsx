@@ -14,9 +14,6 @@ export const BlogPost = () => {
     auth.user.autorization.editor || blogpost.author === auth.user?.username;
   const isClient = auth.user.autorization.client;
 
-  // const canDelete =
-  //   auth.user?.isAdmin || blogpost.author === auth.user?.username;
-
   const returnToBlog = () => {
     navigate("/blog");
   };
@@ -28,7 +25,7 @@ export const BlogPost = () => {
       <p>{blogpost.content}</p>
       <button onClick={returnToBlog}>Volver al blog</button>
 
-      {isAdmin && <button>El blog es correcto</button>}
+      {isAdmin && <button>Eliminar el blogpost</button>}
       {(isAdmin || isEditor) && <button>Editar el blogpost</button>}
       {isClient && <button>Me gusta</button>}
     </>
