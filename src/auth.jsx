@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { userlist } from "./userlist";
 
 // const adminList = ["juan", "freddy", "oscar"];
@@ -9,6 +9,8 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
+  const { state } = useLocation();
+  // console.log(location); // state
 
   // Arreglo de userlist.js
   const userRole = (username) => {
@@ -24,7 +26,8 @@ const AuthProvider = ({ children }) => {
   const login = ({ username }) => {
     const autorization = userRole(username);
     setUser({ username, autorization });
-    navigate("/profile");
+
+    navigate(state?.redirectTo ?? "/profile");
   };
 
   const logout = () => {
@@ -45,9 +48,10 @@ const useAuth = () => {
 // Autenticacion de proteccion de Rutas: si no estamos legados nos redirige al login
 const AuthRoute = (props) => {
   const auth = useAuth();
+  const location = useLocation();
 
   if (!auth.user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" state={{ redirectTo: location.pathname }} />;
   }
 
   return props.children;

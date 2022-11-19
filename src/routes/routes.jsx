@@ -16,7 +16,11 @@ export const routes = [
   },
   {
     path: "/blog",
-    element: <BlogPage />,
+    element: (
+      <AuthRoute>
+        <BlogPage />
+      </AuthRoute>
+    ),
     text: "Blog",
     private: false,
     children: [
